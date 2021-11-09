@@ -24,12 +24,14 @@ DiscoGAN 通过 GAN 来学习不同域的特征，捕捉不同域之间的关系
 
 ### Train
 
+对于 gender conversion，训练 50000 个 iters 即可达到最佳效果。
+
 #### 数据预处理（可选）
 
 将 celeba 数据集 croped 到 128×128：
 
 ```
-python DiscoGAN-Paddle/crop_celeba.py celeba_cropped work/celeba/img_align_celeba/ -o work/celeba/croped_celeba
+python DiscoGAN-Paddle/crop_celeba.py celeba_cropped path/to/img_align_celeba/ -o path/to/croped_celeba
 ```
 
 下面的运行训练和预测代码以性别转换生成为例，
@@ -44,7 +46,7 @@ python DiscoGAN-Paddle/crop_celeba.py celeba_cropped work/celeba/img_align_celeb
         --style_A Male \
         --n_test 200 \
         --batch_size 200 \
-        --epoch_size 2000 \
+        --epoch_size 1000 \
         --result_path ./results \
         --model_path ./models \
         --log_out ./logs \
@@ -80,7 +82,7 @@ python DiscoGAN-Paddle/crop_celeba.py celeba_cropped work/celeba/img_align_celeb
         --style_A Male \
         --n_test 200 \
         --batch_size 200 \
-        --epoch_size 2000 \
+        --epoch_size 1000 \
         --result_path $OUTDIR \
         --model_path $OUTDIR \
         --log_out $LOGDIR \
@@ -174,3 +176,15 @@ python DiscoGAN-Paddle/discogan/evaluation.py \
 11/03/2021 10:10:52 - image_translation.py[line:311] - INFO: Epoch: 0 - Iter: 10150 - Total GEN Loss: 0.0935076 - Total DIS Loss: 1.2299426 - GEN Loss: [0.74897945], [0.55817586] - Feature Matching Loss: [0.01725106], [0.01744595] - RECON Loss: [0.01394007], [0.01113235] - DIS Loss: [0.60705733], [0.62288517] 
 
 ```
+
+## 模型信息
+
+| 信息 | 说明 |
+| --- | --- |
+| 发布者 | [刘辰](https://github.com/ttjygbtj)、[吴海涛](https://github.com/Dylan-get)、[石华榜](https://github.com/S-HuaBomb)、[杨瑞智](https://github.com/buriedms)、[许观](https://github.com/HeySUPERMELON) |
+| 时间 | 2021.11 |
+| 框架版本 | paddlepaddle==2.1.2 |
+| 应用场景 | GAN 图像风格转换 |
+| 支持硬件 | GPU × 4 |
+| 预训练模型下载 | 链接：https://pan.baidu.com/s/1hB34lEKMdh4YIh84kQOILQ 提取码：sbsi |
+| AI Studio 地址 | [DiscoGAN-Paddle](https://aistudio.baidu.com/aistudio/projectdetail/2548914?contributionType=1) |

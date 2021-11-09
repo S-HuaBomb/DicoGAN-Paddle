@@ -17,7 +17,7 @@ python DiscoGAN-Paddle/discogan/image_translation.py \
     --attr_file path/to/list_attr_celeba_demo.txt \
     --task_name celebA \
     --style_A Eyeglasses \
-    --constraint Male --constraint_type 1 \
+    --constraint Male --constraint_type 1 \  # 只选择男性图像
 
 # Run CelebA Gender transform (male to female)
 python ./discogan/image_translation.py \
@@ -33,4 +33,10 @@ python ./discogan/image_translation.py \
     --task_name celebA \
     --style_A Blond_Hair \
     --style_B Black_Hair \
-    --constraint Male --constraint_type -1 \
+    --constraint Male --constraint_type -1 \  # 只选择女性图像
+    --n_test 100 \
+    --batch_size 200 \
+    --epoch_size 1000 \
+    --result_path ./results \
+    --model_path ./models \
+    --log_out ./logs
