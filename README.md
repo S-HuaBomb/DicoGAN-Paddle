@@ -1,7 +1,16 @@
 # DiscoGAN-Paddle
+
+## 简介
+
 Re-implement DiscoGAN in Paddle
 
 基于 pytorch 源码：https://github.com/SKTBrain/DiscoGAN
+
+![](./assets/discoGAN.jpg)
+
+DiscoGAN 通过 GAN 来学习不同域的特征，捕捉不同域之间的关系，利用这些关系，可以生成将风格从一个域转移到另一个域的图片，同时保留了关键属性，如方向和面部识别特征。
+
+论文链接：[Learning to Discover Cross-Domain Relations with Generative Adversarial Networks.](https://arxiv.org/pdf/1703.05192.pdf)
 
 ## 环境依赖
 
@@ -22,6 +31,8 @@ Re-implement DiscoGAN in Paddle
 ```
 python DiscoGAN-Paddle/crop_celeba.py celeba_cropped work/celeba/img_align_celeba/ -o work/celeba/croped_celeba
 ```
+
+下面的运行训练和预测代码以性别转换生成为例，
 
 - **单卡：**
     
@@ -108,6 +119,11 @@ python DiscoGAN-Paddle/discogan/evaluation.py \
 |![2A](./assets/figs/2.A.jpg)|![2AB](./assets/figs/2.AB.jpg)|![2ABA](./assets/figs/2.ABA.jpg)|
 
 > 详见 `./assets/figs`
+
+对于 CelebA 数据集，更多可以训练的跨域风格转换生成如论文中图 7 所示，训练方式见 `script.sh`。
+
+![](./assets/conversions.jpg)
+
 
 ### 训练日志样例
 
