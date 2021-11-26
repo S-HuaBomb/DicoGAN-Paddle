@@ -21,22 +21,33 @@ class HingeEmbeddingLoss(nn.Layer):
     """
          / x_i,                   if y_i == 1
     l_i =
-         \ max(0, margin - x_i),  if y_i == -1
+         \ max(0, delta - x_i),  if y_i == -1
     """
-    def __init__(self, margin: float = 1.0, reduction: str = "mean"):
+
+    def __init__(self, delta: float = 1.0, reduction: str = "mean"):
         super(HingeEmbeddingLoss, self).__init__()
         self.loss = None
-        self.margin = margin
+        self.delta = delta
         self.reduction = reduction
 
+        if self.reduction not in ['sum', 'mean', 'none']:
+            raise ValueError(
+                "'reduction' in 'hinge_embedding_loss' should be 'sum', 'mean' or 'none', "
+                "but received {}.".format(self.reduction))
+
     def forward(self, x, y):
-        if (y == 1.).all():
-            self.loss = x
-        if (y == -1.).all():
-            self.loss = paddle.maximum(paddle.to_tensor(0.), self.margin - x)
-        if self.reduction == 'mean':
-            return self.loss.mean()
-        if self.reduction == 'max':
-            return self.loss.max()
+        if set(y.flatten().numpy()) <= {1., -1.}:
+            self.loss = paddle.where(
+                y == 1., x,
+                paddle.maximum(paddle.to_tensor(0.), self.delta - x))
         else:
-            raise ValueError(f"choose reduction from ['mean', 'max'], but got {self.reduction}")
+            raise ValueError("'label' should contain 1. or -1., "
+                             "but received label containing {}.".format(
+                             set(y.flatten().numpy())))
+
+        if self.reduction == 'mean':
+            return paddle.mean(self.loss)
+        elif self.reduction == 'sum':
+            return paddle.sum(self.loss)
+        elif self.reduction == 'none':
+            return self.loss
